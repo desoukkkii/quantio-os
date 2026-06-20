@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantio OS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="boot-screen">
+    <div class="boot-logo">
+      <svg viewBox="0 0 80 80" fill="none">
+        <rect x="8" y="8" width="64" height="64" rx="18" stroke="currentColor" stroke-width="2" fill="none"/>
+        <path d="M28 34 L40 24 L52 34 L52 50 L40 60 L28 50 Z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+        <path d="M33 39 L40 33 L47 39 L47 51 L40 57 L33 51 Z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round" opacity="0.6"/>
+        <circle cx="40" cy="45" r="2.5" fill="currentColor"/>
+      </svg>
+    </div>
+    <div class="boot-progress-track">
+      <div class="boot-progress-bar" id="boot-bar"></div>
+    </div>
+    <div class="boot-status" id="boot-status">Starting up...</div>
+  </div>
+
+  <div id="lock-screen">
+    <div class="lock-avatar">Q</div>
+    <div class="lock-time" id="lock-time">00:00</div>
+    <div class="lock-date" id="lock-date">Loading...</div>
+    <button class="lock-btn" id="lock-btn">Click to unlock</button>
+  </div>
+
+  <div id="desktop" class="hidden">
+    <div id="desktop-wallpaper"></div>
+    <div id="desktop-icons"></div>
+    <div id="window-container"></div>
+
+    <div id="menubar">
+      <div class="menubar-left">
+        <button class="menubar-apple" id="apple-btn">&#63743;</button>
+        <span class="menubar-app-name" id="menubar-app-name">Finder</span>
+        <div class="menubar-menus">
+          <button class="menubar-item">File</button>
+          <button class="menubar-item">Edit</button>
+          <button class="menubar-item">View</button>
+          <button class="menubar-item">Window</button>
+          <button class="menubar-item">Help</button>
+        </div>
+      </div>
+      <div class="menubar-right">
+        <button class="menubar-item" data-action="spotlight">&#x1F50D;</button>
+        <button class="menubar-btn" id="menubar-wifi">&#x1F4F6;</button>
+        <button class="menubar-btn" id="menubar-battery">&#x26A1;</button>
+        <button class="menubar-btn" id="menubar-clock"></button>
+      </div>
+    </div>
+
+    <div class="apple-dropdown" id="apple-dropdown">
+      <div class="apple-item" data-action="about">About Quantio</div>
+      <div class="apple-sep"></div>
+      <div class="apple-item" data-action="sleep">Lock Screen</div>
+      <div class="apple-item" data-action="restart">Restart...</div>
+      <div class="apple-item" data-action="shutdown">Shut Down...</div>
+    </div>
+
+    <div id="dock">
+      <div class="dock-items" id="dock-items">
+        <div class="dock-item" data-app="finder">
+          <div class="dock-icon">&#x1F4C1;</div>
+          <div class="dock-label">Finder</div>
+          <div class="dock-dot"></div>
+        </div>
+        <div class="dock-item" data-app="terminal">
+          <div class="dock-icon">&#x1F5A5;&#xFE0F;</div>
+          <div class="dock-label">Terminal</div>
+          <div class="dock-dot"></div>
+        </div>
+        <div class="dock-item" data-app="calculator">
+          <div class="dock-icon">&#x1F522;</div>
+          <div class="dock-label">Calculator</div>
+          <div class="dock-dot"></div>
+        </div>
+        <div class="dock-item" data-app="notes">
+          <div class="dock-icon">&#x1F4DD;</div>
+          <div class="dock-label">Notes</div>
+          <div class="dock-dot"></div>
+        </div>
+        <div class="dock-item" data-app="photos">
+          <div class="dock-icon">&#x1F5BC;</div>
+          <div class="dock-label">Photos</div>
+          <div class="dock-dot"></div>
+        </div>
+        <div class="dock-item" data-app="settings">
+          <div class="dock-icon">&#x2699;</div>
+          <div class="dock-label">Settings</div>
+          <div class="dock-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="spotlight">
+      <div class="spotlight-overlay"></div>
+      <div class="spotlight-modal">
+        <div class="spotlight-input-wrap">
+          <span class="spotlight-search-icon">&#x1F50D;</span>
+          <input class="spotlight-input" id="spotlight-input" placeholder="Search..." spellcheck="false">
+        </div>
+        <div class="spotlight-results" id="spotlight-results"></div>
+        <div class="spotlight-footer">Press Esc to close</div>
+      </div>
+    </div>
+
+    <div id="context-menu"></div>
+    <div id="notification-container"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
