@@ -59,15 +59,18 @@ export default function Dock() {
 
   const minimizedWindows = Array.from(state.windows.values()).filter(w => w.minimized)
 
-  const dockIconSize = Math.round(48 * state.settings.dockSize)
-  const dockIconFont = Math.round(24 * state.settings.dockSize)
+  const isMobile = window.innerWidth < 768
+  const dockScale = isMobile ? 0.6 : state.settings.dockSize
+  const dockIconSize = Math.round(48 * dockScale)
+  const dockIconFont = Math.round(24 * dockScale)
+  const dockContainerHeight = Math.round(76 * dockScale)
 
   return (
     <nav
       id="dock"
       className="absolute bottom-[10px] left-1/2 -translate-x-1/2 z-[5000] flex items-center px-3 gap-1"
       style={{
-        height: Math.round(76 * state.settings.dockSize) + 'px',
+        height: dockContainerHeight + 'px',
         background: 'var(--bg-dock)',
         backdropFilter: 'blur(30px) saturate(1.4)',
         WebkitBackdropFilter: 'blur(30px) saturate(1.4)',
@@ -138,7 +141,7 @@ export default function Dock() {
           <div className="flex items-center gap-[2px]">
             {minimizedWindows.map((w) => {
               const app = DOCK_APPS.find(a => a.id === w.appId)
-              const minIconSize = Math.round(40 * state.settings.dockSize)
+              const minIconSize = Math.round(40 * dockScale)
               return (
                 <div
                   key={w.id}
@@ -151,7 +154,7 @@ export default function Dock() {
                     style={{
                       width: minIconSize + 'px',
                       height: minIconSize + 'px',
-                      fontSize: Math.round(18 * state.settings.dockSize) + 'px',
+                      fontSize: Math.round(18 * dockScale) + 'px',
                       filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.35))',
                     }}
                   >

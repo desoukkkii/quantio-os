@@ -144,18 +144,27 @@ export function OSProvider({ children }) {
     const app = DOCK_APPS.find(a => a.id === id)
     if (!app) return null
     const winId = `win-${++_idCounter}`
+    const isMobile = window.innerWidth < 768
+    const rect = isMobile
+      ? {
+          x: 0,
+          y: 0,
+          w: window.innerWidth,
+          h: window.innerHeight - 30,
+        }
+      : {
+          x: 80 + (_idCounter % 6) * 30,
+          y: 40 + (_idCounter % 6) * 25,
+          w: opts.width || 540,
+          h: opts.height || 380,
+        }
     const win = {
       id: winId,
       appId: id,
       title: app.label,
       icon: app.icon,
       minimized: false,
-      rect: {
-        x: 80 + (_idCounter % 6) * 30,
-        y: 40 + (_idCounter % 6) * 25,
-        w: opts.width || 540,
-        h: opts.height || 380,
-      },
+      rect,
     }
     dispatch({ type: 'ADD_RUNNING_APP', payload: id })
     dispatch({ type: 'CREATE_WINDOW', payload: win })

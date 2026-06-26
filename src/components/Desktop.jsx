@@ -60,8 +60,46 @@ export default function Desktop() {
     }
   }, [dispatch, state.contextMenu, state.spotlightOpen, state.appleMenuOpen, setSpotlight, setAppleMenu])
 
+  const longPressTimer = useRef(null)
+  const LONG_PRESS_MS = 600
+
   const handleTouchStart = useCallback((e) => {
     if (e.touches.length > 1) return
+    const target = e.target
+    if (target.closest('.window') || target.closest('#dock') || target.closest('#menubar')) return
+    longPressTimer.current = setTimeout(() => {
+      const touch = e.touches[0]
+      dispatch({
+        type: 'SET_CONTEXT_MENU',
+        payload: {
+          x: touch.clientX,
+          y: touch.clientY,
+          items: [
+            { label: 'New Folder', icon: '\uD83D\uDCC1', action: () => notify('Desktop', 'New folder created') },
+            { label: 'Get Info', icon: '\u2139\uFE0F', action: () => notify('Info', 'Quantio OS Desktop') },
+            { type: 'sep' },
+            { label: 'Change Wallpaper', icon: '\uD83D\uDDBC', action: () => openApp('settings') },
+            { label: 'Open Settings', icon: '\u2699\uFE0F', action: () => openApp('settings') },
+            { type: 'sep' },
+            { label: 'Show Desktop Icons', icon: '\uD83D\uDCBB', checked: state.settings.showDesktopIcons, action: () => updateSettings({ showDesktopIcons: !state.settings.showDesktopIcons }) },
+          ],
+        },
+      })
+    }, LONG_PRESS_MS)
+  }, [dispatch, notify, openApp, updateSettings, state.settings.showDesktopIcons])
+
+  const handleTouchEnd = useCallback(() => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current)
+      longPressTimer.current = null
+    }
+  }, [])
+
+  const handleTouchMove = useCallback(() => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current)
+      longPressTimer.current = null
+    }
   }, [])
 
   return (
@@ -70,6 +108,8 @@ export default function Desktop() {
       style={{ background: '#0b0d12' }}
       onClick={handleClick}
       onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchMove={handleTouchMove}
       onContextMenu={(e) => {
         if (!e.target.closest('.window') && !e.target.closest('#dock') && !e.target.closest('#menubar')) {
           e.preventDefault()

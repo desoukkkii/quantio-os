@@ -178,8 +178,6 @@ export default function Window({ win }) {
         width: win.rect.w + 'px',
         height: win.rect.h + 'px',
         zIndex: zIndex,
-        minWidth: '320px',
-        minHeight: '180px',
         background: 'var(--bg-window)',
         backdropFilter: 'blur(50px) saturate(1.6)',
         WebkitBackdropFilter: 'blur(50px) saturate(1.6)',
