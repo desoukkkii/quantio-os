@@ -60,11 +60,16 @@ export default function Desktop() {
     }
   }, [dispatch, state.contextMenu, state.spotlightOpen, state.appleMenuOpen, setSpotlight, setAppleMenu])
 
+  const handleTouchStart = useCallback((e) => {
+    if (e.touches.length > 1) return
+  }, [])
+
   return (
     <main
       className={`fixed inset-0 flex flex-col ${state.locked ? 'hidden' : ''}`}
       style={{ background: '#0b0d12' }}
       onClick={handleClick}
+      onTouchStart={handleTouchStart}
       onContextMenu={(e) => {
         if (!e.target.closest('.window') && !e.target.closest('#dock') && !e.target.closest('#menubar')) {
           e.preventDefault()

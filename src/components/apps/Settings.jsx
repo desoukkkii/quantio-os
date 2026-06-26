@@ -77,7 +77,7 @@ function WallpaperPage({ state, updateSettings }) {
   return (
     <>
       <div className="settings-title text-[15px] font-semibold mb-3.5 text-[var(--text-primary)]">Wallpaper</div>
-      <div className="wall-grid grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))' }}>
+      <div className="wall-grid grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(90px, 28vw), 1fr))' }}>
         {Object.entries(WALLPAPERS).map(([k, v]) => (
           <div
             key={k}

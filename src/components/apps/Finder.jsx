@@ -24,7 +24,7 @@ export default function Finder() {
           <button className="px-2 py-[3px] border-none bg-transparent text-[var(--text-secondary)] text-[11px] cursor-pointer transition-all duration-100 rounded hover:bg-[var(--bg-glass-hover)] hover:text-[var(--text-primary)]" disabled>&#x2192;</button>
           <button className="px-2 py-[3px] border-none bg-transparent text-[var(--text-secondary)] text-[11px] cursor-pointer transition-all duration-100 rounded hover:bg-[var(--bg-glass-hover)] hover:text-[var(--text-primary)]">&#x25A6;</button>
         </div>
-        <div className="finder-files flex-1 overflow-y-auto p-[6px] grid gap-0.5 content-start" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(68px, 1fr))' }}>
+        <div className="finder-files flex-1 overflow-y-auto p-[6px] grid gap-0.5 content-start" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(68px, 16vw), 1fr))' }}>
           {FINDER_FILES.map((f, i) => (
             <div key={i} className="finder-item flex flex-col items-center gap-0.5 p-[6px] px-1 rounded cursor-pointer transition-all duration-100 text-center hover:bg-[var(--bg-glass-hover)]">
               <div className="fi-icon text-[26px] leading-none">{f.icon}</div>

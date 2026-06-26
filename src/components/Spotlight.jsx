@@ -93,7 +93,7 @@ export default function Spotlight() {
             results.map((r) => (
               <div
                 key={r.id}
-                className="flex items-center gap-2.5 px-4 py-[7px] cursor-pointer transition-all duration-100 hover:bg-[var(--accent-glass)]"
+                className="spotlight-result flex items-center gap-2.5 px-4 py-[7px] cursor-pointer transition-all duration-100 hover:bg-[var(--accent-glass)]"
                 onClick={() => handleSelect(r.id)}
               >
                 <div className="w-7 h-7 flex items-center justify-center text-[16px]">{r.icon}</div>
@@ -109,7 +109,7 @@ export default function Spotlight() {
             </div>
           )}
         </div>
-        <div className="px-4 py-[6px] text-[10px] text-[var(--text-tertiary)] border-t-[0.5px] border-[var(--border-glass)] text-center">
+        <div className="spotlight-hint px-4 py-[6px] text-[10px] text-[var(--text-tertiary)] border-t-[0.5px] border-[var(--border-glass)] text-center">
           Press <kbd className="text-white/70">Esc</kbd> to close &middot; <kbd className="text-white/70">&#8984;K</kbd> to toggle
         </div>
       </div>

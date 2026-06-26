@@ -77,7 +77,7 @@ export default function Dock() {
       }}
       aria-label="Application dock"
     >
-      <div className="flex items-center gap-[2px] dock-items">
+      <div className="flex items-center gap-[2px] dock-items overflow-x-auto scrollbar-none max-w-full" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         {DOCK_APPS.map((app) => {
           const running = state.runningApps.has(app.id)
           const active = state.activeApp === app.id
@@ -89,6 +89,7 @@ export default function Dock() {
               data-app={app.id}
               onClick={() => handleDockClick(app.id)}
               onContextMenu={(e) => handleContextMenu(e, app.id)}
+              onTouchEnd={(e) => { e.preventDefault(); handleDockClick(app.id) }}
             >
               <div
                 className="dock-icon flex items-center justify-center transition-all duration-250"
@@ -102,7 +103,7 @@ export default function Dock() {
                 {app.icon}
               </div>
               <div
-                className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 text-[10px] text-white px-2 py-[3px] rounded whitespace-nowrap opacity-0 pointer-events-none transition-all duration-150"
+                className="dock-label absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 text-[10px] text-white px-2 py-[3px] rounded whitespace-nowrap opacity-0 pointer-events-none transition-all duration-150"
                 style={{
                   background: 'rgba(20,22,28,0.92)',
                   backdropFilter: 'blur(12px)',
@@ -114,7 +115,7 @@ export default function Dock() {
                 {app.label}
               </div>
               <div
-                className={`w-1 h-1 rounded-full mt-[3px] transition-all duration-200`}
+                className="dock-indicator w-1 h-1 rounded-full mt-[3px] transition-all duration-200"
                 style={
                   running && active
                     ? { background: '#fff' }

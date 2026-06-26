@@ -53,6 +53,11 @@ export default function LockScreen() {
     }
   }
 
+  const handleTouchEnd = (e) => {
+    e.preventDefault()
+    handleScreenClick()
+  }
+
   const wp = WALLPAPERS[state.settings.wallpaper] || WALLPAPERS.sunset
 
   return (
@@ -60,6 +65,7 @@ export default function LockScreen() {
       className={`fixed inset-0 z-[9000] flex flex-col items-center justify-center gap-1.5 cursor-default transition-all duration-700 ${state.locked ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
       style={{ backgroundImage: wp.colors, backgroundSize: 'cover', backgroundPosition: 'center' }}
       onClick={handleScreenClick}
+      onTouchEnd={handleTouchEnd}
     >
       <div
         className="absolute inset-0 transition-opacity duration-700"
@@ -71,7 +77,7 @@ export default function LockScreen() {
       />
       <div className={`relative z-10 flex flex-col items-center gap-1.5 transition-all duration-500 ${woken ? 'opacity-100 translate-y-0' : 'opacity-40 translate-y-4'}`}>
         <div
-          className="w-[60px] h-[60px] rounded-full flex items-center justify-center text-[26px] font-bold text-white mb-5"
+          className="lock-avatar w-[60px] h-[60px] rounded-full flex items-center justify-center text-[26px] font-bold text-white mb-5"
           style={{
             background: `linear-gradient(140deg, var(--accent), color-mix(in oklab, var(--accent) 70%, #fff))`,
             boxShadow: '0 12px 36px color-mix(in oklab, var(--accent) 40%, transparent), 0 0 0 1px rgba(255,255,255,0.08) inset',
@@ -79,14 +85,14 @@ export default function LockScreen() {
         >
           Q
         </div>
-        <div className="text-[76px] font-[200] text-white leading-none tracking-[-2px]" style={{ textShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
+        <div className="lock-time text-[76px] font-[200] text-white leading-none tracking-[-2px]" style={{ textShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
           {time}
         </div>
-        <div className="text-base text-white/60 mb-8">{date}</div>
+        <div className="lock-date text-base text-white/60 mb-8">{date}</div>
         {woken ? (
           <button
             onClick={(e) => { e.stopPropagation(); dispatch({ type: 'UNLOCK' }) }}
-            className="px-6 py-2.5 rounded-full border border-white/15 bg-white/5 text-white text-[13px] cursor-pointer transition-all duration-200 hover:bg-white/10 active:scale-98"
+            className="lock-unlock-btn px-6 py-2.5 rounded-full border border-white/15 bg-white/5 text-white text-[13px] cursor-pointer transition-all duration-200 hover:bg-white/10 active:scale-98"
             style={{ backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', fontFamily: 'inherit' }}
           >
             Click to unlock

@@ -60,6 +60,13 @@ html, body, #root {
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
   text-rendering: optimizeLegibility;
   letter-spacing: -0.005em;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+}
+
+input, textarea, select {
+  font-size: 16px;
 }
 
 ::-webkit-scrollbar {
@@ -75,6 +82,13 @@ html, body, #root {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+@media (pointer: coarse) {
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 }
 
 :focus-visible {
@@ -182,15 +196,513 @@ input[type="range"]::-webkit-slider-thumb {
   to { opacity: 0; transform: translateX(40px); }
 }
 
+@media (max-width: 1024px) {
+  #window-container .window {
+    min-width: min(80vw, 500px);
+    max-width: 90vw;
+  }
+
+  .finder-sidebar,
+  .settings-sidebar {
+    width: 140px;
+  }
+
+  .notes-list {
+    width: 140px;
+  }
+}
+
 @media (max-width: 768px) {
-  .menubar-menus { display: none; }
-  #dock { height: 60px; padding: 0 8px; bottom: 6px; }
-  .dock-item .dock-icon { width: 40px; height: 40px; font-size: 20px; }
+  :root {
+    --menubar-height: 34px;
+    --dock-height: 62px;
+  }
+
+  #menubar .menubar-menus { display: none; }
+  #menubar .menubar-app-label { display: none; }
+
+  #dock {
+    height: 58px;
+    padding: 0 6px;
+    bottom: 8px;
+    border-radius: var(--radius-lg);
+  }
+
+  #dock .dock-items {
+    gap: 0;
+  }
+
+  #dock .dock-item .dock-icon {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 18px !important;
+  }
+
+  #dock .dock-item {
+    padding: 0 3px;
+  }
+
+  #dock .dock-indicator {
+    width: 3px;
+    height: 3px;
+    margin-top: 1px;
+  }
+
   .lock-time { font-size: 64px; }
-  .window { min-width: min(94vw, 540px); min-height: 60dvh; }
-  .spotlight-modal { width: 94vw; }
+
+  #window-container .window {
+    min-width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);
+    min-height: 50dvh;
+  }
+
+  .spotlight-modal {
+    width: 94vw;
+    max-width: 94vw;
+  }
+
+  #spotlight {
+    padding-top: 12vh;
+  }
+
+  #notification-container {
+    max-width: min(320px, calc(100vw - 16px));
+    right: 8px;
+  }
+
+  .desktop-icons {
+    padding: 10px;
+    gap: 2px;
+  }
+
+  .desktop-icons .desktop-icon {
+    width: 64px;
+    padding: 4px 2px;
+  }
+
+  .desktop-icons .desktop-icon .di-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  .desktop-icons .desktop-icon .di-label {
+    font-size: 10px;
+    max-width: 58px;
+  }
+
+  .photos-thumb {
+    width: 32px;
+    height: 32px;
+  }
+
+  .settings .settings-content {
+    padding: 12px;
+  }
+
+  .calc-btn {
+    min-height: 44px;
+  }
+
+  .calc-result {
+    font-size: 24px !important;
+  }
+
+  .window-titlebar {
+    height: 34px;
+    min-height: 34px;
+  }
+
+  .window-titlebar .win-title {
+    font-size: 11px;
+    max-width: 45%;
+  }
+
+  .win-controls .win-btn {
+    width: 11px;
+    height: 11px;
+  }
+}
+
+@media (max-width: 640px) {
+  #dock {
+    height: 52px;
+    padding: 0 4px;
+    bottom: 6px;
+    border-radius: var(--radius-md);
+    gap: 0;
+  }
+
+  #dock .dock-item .dock-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 16px !important;
+  }
+
+  #dock .dock-item {
+    padding: 0 2px;
+  }
+
+  #dock .dock-label {
+    display: none;
+  }
+
+  #dock .dock-indicator {
+    width: 3px;
+    height: 3px;
+    margin-top: 1px;
+  }
+
+  .lock-time {
+    font-size: 48px;
+    letter-spacing: -1px;
+  }
+
+  .lock-date {
+    font-size: 13px;
+  }
+
+  .lock-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .lock-unlock-btn {
+    padding: 8px 20px;
+    font-size: 12px;
+  }
+
+  .spotlight-modal {
+    border-radius: 12px;
+  }
+
+  #spotlight {
+    padding-top: 8vh;
+  }
+
+  .spotlight-modal input {
+    font-size: 14px;
+  }
+
+  .spotlight-modal .spotlight-result {
+    padding: 6px 12px;
+  }
+
+  .spotlight-modal .spotlight-hint {
+    font-size: 9px;
+    padding: 4px 12px;
+  }
+
+  #notification-container {
+    max-width: calc(100vw - 12px);
+    right: 6px;
+    top: calc(var(--menubar-height) + 4px);
+  }
+
+  #notification-container .notif-item {
+    padding: 8px 10px;
+  }
 }
 
 @media (max-width: 480px) {
-  .lock-time { font-size: 54px; }
+  :root {
+    --menubar-height: 38px;
+    --dock-height: 50px;
+  }
+
+  #menubar .menubar-info {
+    gap: 0;
+  }
+
+  #menubar .menubar-info .menubar-wifi,
+  #menubar .menubar-info .menubar-battery {
+    padding: 0 4px;
+    font-size: 10px;
+  }
+
+  #menubar .menubar-info .menubar-search {
+    padding: 0 4px;
+  }
+
+  #menubar .menubar-clock {
+    font-size: 10px;
+    padding: 0 4px;
+  }
+
+  #menubar #apple-btn {
+    width: 28px;
+  }
+
+  .lock-time {
+    font-size: 40px;
+  }
+
+  #dock {
+    height: 46px;
+    padding: 0 3px;
+    bottom: 4px;
+    gap: 0;
+  }
+
+  #dock .dock-items {
+    gap: 0;
+  }
+
+  #dock .dock-item .dock-icon {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 14px !important;
+  }
+
+  #dock .dock-item {
+    padding: 0 1px;
+  }
+
+  #window-container .window {
+    min-width: calc(100vw - 8px);
+    max-width: calc(100vw - 8px);
+    min-height: 45dvh;
+  }
+
+  .window-titlebar {
+    height: 32px;
+    min-height: 32px;
+  }
+
+  .window-titlebar .win-title {
+    max-width: 50%;
+    font-size: 10px;
+  }
+
+  .win-controls .win-btn {
+    width: 10px;
+    height: 10px;
+  }
+
+  .finder-sidebar,
+  .settings-sidebar {
+    width: 120px;
+  }
+
+  .finder-sidebar .finder-nav,
+  .settings-sidebar .settings-item {
+    font-size: 10px;
+    padding: 4px 4px;
+  }
+
+  .notes-list {
+    width: 120px;
+  }
+
+  .notes-list .notes-item {
+    padding: 4px 6px;
+  }
+
+  .notes-list .notes-item .ni-title {
+    font-size: 11px;
+  }
+
+  .notes-list .notes-item .ni-preview {
+    font-size: 9px;
+  }
+
+  .notes-editor-wrap .notes-title {
+    font-size: 15px;
+  }
+
+  .notes-editor-wrap .notes-content {
+    font-size: 11px;
+  }
+
+  .settings .settings-content {
+    padding: 8px;
+  }
+
+  .settings .settings-title {
+    font-size: 13px;
+  }
+
+  .settings .settings-row {
+    padding: 8px 10px;
+  }
+
+  .settings .settings-label {
+    font-size: 11px;
+  }
+
+  .settings .settings-desc {
+    font-size: 9px;
+  }
+
+  .settings .wall-grid {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)) !important;
+    gap: 6px;
+  }
+
+  .settings .color-swatch {
+    width: 26px;
+    height: 26px;
+  }
+
+  .calc-display {
+    min-height: 54px;
+    padding: 6px 10px;
+  }
+
+  .calc-result {
+    font-size: 20px !important;
+  }
+
+  .calc-btn {
+    font-size: 13px;
+    min-height: 40px;
+    border-radius: var(--radius-sm);
+  }
+
+  .calc-expr {
+    font-size: 10px;
+  }
+
+  .desktop-icons {
+    padding: 6px;
+    gap: 1px;
+  }
+
+  .desktop-icons .desktop-icon {
+    width: 58px;
+    padding: 3px 1px;
+  }
+
+  .desktop-icons .desktop-icon .di-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  .desktop-icons .desktop-icon .di-label {
+    font-size: 9px;
+    max-width: 52px;
+  }
+
+  .finder-files {
+    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)) !important;
+  }
+
+  .photos-thumb {
+    width: 28px;
+    height: 28px;
+  }
+
+  .photos-canvas svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .term-output {
+    font-size: 11px;
+    padding: 6px;
+  }
+
+  .term-input-line {
+    padding: 0 6px 6px;
+  }
+
+  .term-prompt {
+    font-size: 10px;
+  }
+
+  .term-input {
+    font-size: 10px;
+  }
+
+  #context-menu-container {
+    min-width: 160px;
+  }
+
+  #context-menu-container button {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+}
+
+@media (max-width: 375px) {
+  #dock .dock-item .dock-icon {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 12px !important;
+  }
+
+  #dock {
+    height: 40px;
+    padding: 0 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .lock-time {
+    font-size: 34px;
+  }
+
+  #window-container .window {
+    min-width: calc(100vw - 4px);
+    max-width: calc(100vw - 4px);
+  }
+
+  .finder-sidebar,
+  .settings-sidebar,
+  .notes-list {
+    width: 100px;
+  }
+}
+
+@media (pointer: coarse) {
+  .dock-item:hover .dock-label {
+    display: none;
+  }
+
+  .window-resize {
+    border-width: 8px !important;
+  }
+
+  .dock-item {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button, 
+  [role="button"],
+  .cursor-pointer {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .win-btn {
+    min-height: unset !important;
+    min-width: unset !important;
+  }
+
+  #menubar button,
+  #menubar [role="button"] {
+    min-height: unset;
+    min-width: unset;
+  }
+
+  .dock-item,
+  .desktop-icon,
+  .finder-nav,
+  .notes-item,
+  .settings-item {
+    min-height: unset;
+    min-width: unset;
+  }
+
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .mobile-only {
+    display: none !important;
+  }
 }

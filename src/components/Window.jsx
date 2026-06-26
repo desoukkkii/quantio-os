@@ -89,14 +89,19 @@ export default function Window({ win }) {
 
   const startDrag = useCallback((e) => {
     if (e.target.closest('.win-btn') || maximized) return
-    const startX = e.clientX
-    const startY = e.clientY
+    e.preventDefault()
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY
+    const startX = clientX
+    const startY = clientY
     const origX = win.rect.x
     const origY = win.rect.y
 
     const onMove = (e) => {
-      win.rect.x = origX + (e.clientX - startX)
-      win.rect.y = origY + (e.clientY - startY)
+      const cx = e.touches ? e.touches[0].clientX : e.clientX
+      const cy = e.touches ? e.touches[0].clientY : e.clientY
+      win.rect.x = origX + (cx - startX)
+      win.rect.y = origY + (cy - startY)
       const el = elRef.current
       if (el) {
         el.style.left = win.rect.x + 'px'
@@ -106,27 +111,37 @@ export default function Window({ win }) {
     const onUp = () => {
       document.removeEventListener('mousemove', onMove)
       document.removeEventListener('mouseup', onUp)
+      document.removeEventListener('touchmove', onMove)
+      document.removeEventListener('touchend', onUp)
     }
     document.addEventListener('mousemove', onMove)
     document.addEventListener('mouseup', onUp)
-    e.preventDefault()
+    document.addEventListener('touchmove', onMove, { passive: true })
+    document.addEventListener('touchend', onUp)
   }, [win, maximized])
 
   const startResize = useCallback((e, dir) => {
     if (maximized) return
     e.preventDefault()
-    const startX = e.clientX
-    const startY = e.clientY
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY
+    const startX = clientX
+    const startY = clientY
     const { x: ox, y: oy, w: ow, h: oh } = win.rect
 
+    const minW = window.innerWidth < 480 ? Math.min(280, window.innerWidth - 16) : 320
+    const minH = 180
+
     const onMove = (e) => {
-      const dx = e.clientX - startX
-      const dy = e.clientY - startY
+      const cx = e.touches ? e.touches[0].clientX : e.clientX
+      const cy = e.touches ? e.touches[0].clientY : e.clientY
+      const dx = cx - startX
+      const dy = cy - startY
       let x = ox, y = oy, w = ow, h = oh
-      if (dir.includes('e')) w = Math.max(320, ow + dx)
-      if (dir.includes('w')) { w = Math.max(320, ow - dx); x = ox + (ow - w) }
-      if (dir.includes('s')) h = Math.max(180, oh + dy)
-      if (dir.includes('n')) { h = Math.max(180, oh - dy); y = oy + (oh - h) }
+      if (dir.includes('e')) w = Math.max(minW, ow + dx)
+      if (dir.includes('w')) { w = Math.max(minW, ow - dx); x = ox + (ow - w) }
+      if (dir.includes('s')) h = Math.max(minH, oh + dy)
+      if (dir.includes('n')) { h = Math.max(minH, oh - dy); y = oy + (oh - h) }
       win.rect.x = x; win.rect.y = y; win.rect.w = w; win.rect.h = h
       const el = elRef.current
       if (el) {
@@ -139,9 +154,13 @@ export default function Window({ win }) {
     const onUp = () => {
       document.removeEventListener('mousemove', onMove)
       document.removeEventListener('mouseup', onUp)
+      document.removeEventListener('touchmove', onMove)
+      document.removeEventListener('touchend', onUp)
     }
     document.addEventListener('mousemove', onMove)
     document.addEventListener('mouseup', onUp)
+    document.addEventListener('touchmove', onMove, { passive: true })
+    document.addEventListener('touchend', onUp)
   }, [win, maximized])
 
   const zIndex = isFocused ? state.windowZIndex : (win.zIndex || state.windowZIndex - 1)
@@ -179,6 +198,7 @@ export default function Window({ win }) {
           borderRadius: maximized ? '0' : 'var(--radius-lg) var(--radius-lg) 0 0',
         }}
         onMouseDown={startDrag}
+        onTouchStart={startDrag}
       >
         <div className="win-controls flex gap-2 z-[2]">
           {['close', 'minimize', 'maximize'].map((action) => (
@@ -224,8 +244,9 @@ export default function Window({ win }) {
       {resizeDirs.map((dir) => (
         <div
           key={dir}
-          className={`window-resize absolute z-10 ${dir === 'n' ? 'top-[-4px] left-2 right-2 h-2 cursor-n-resize' : ''} ${dir === 's' ? 'bottom-[-4px] left-2 right-2 h-2 cursor-s-resize' : ''} ${dir === 'e' ? 'right-[-4px] top-2 bottom-2 w-2 cursor-e-resize' : ''} ${dir === 'w' ? 'left-[-4px] top-2 bottom-2 w-2 cursor-w-resize' : ''} ${dir === 'ne' ? 'top-[-4px] right-[-4px] w-3 h-3 cursor-ne-resize' : ''} ${dir === 'nw' ? 'top-[-4px] left-[-4px] w-3 h-3 cursor-nw-resize' : ''} ${dir === 'se' ? 'bottom-[-4px] right-[-4px] w-3 h-3 cursor-se-resize' : ''} ${dir === 'sw' ? 'bottom-[-4px] left-[-4px] w-3 h-3 cursor-sw-resize' : ''}`}
+          className={`window-resize absolute z-10 ${dir === 'n' ? 'top-[-5px] left-2 right-2 h-[10px] cursor-n-resize' : ''} ${dir === 's' ? 'bottom-[-5px] left-2 right-2 h-[10px] cursor-s-resize' : ''} ${dir === 'e' ? 'right-[-5px] top-2 bottom-2 w-[10px] cursor-e-resize' : ''} ${dir === 'w' ? 'left-[-5px] top-2 bottom-2 w-[10px] cursor-w-resize' : ''} ${dir === 'ne' ? 'top-[-5px] right-[-5px] w-[14px] h-[14px] cursor-ne-resize' : ''} ${dir === 'nw' ? 'top-[-5px] left-[-5px] w-[14px] h-[14px] cursor-nw-resize' : ''} ${dir === 'se' ? 'bottom-[-5px] right-[-5px] w-[14px] h-[14px] cursor-se-resize' : ''} ${dir === 'sw' ? 'bottom-[-5px] left-[-5px] w-[14px] h-[14px] cursor-sw-resize' : ''}`}
           onMouseDown={(e) => startResize(e, dir)}
+          onTouchStart={(e) => startResize(e, dir)}
         />
       ))}
     </div>

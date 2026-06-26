@@ -9,9 +9,9 @@ export default function NotificationContainer() {
       className="fixed top-[calc(var(--menubar-height)+8px)] right-3 z-[7000] flex flex-col gap-1.5 pointer-events-none max-w-[320px]"
     >
       {state.notifications.map((n) => (
-        <div
-          key={n.id}
-          className="pointer-events-auto px-3 py-2.5 flex gap-2 cursor-pointer"
+          <div
+            key={n.id}
+            className="notif-item pointer-events-auto px-3 py-2.5 flex gap-2 cursor-pointer"
           style={{
             background: 'rgba(30,32,38,0.92)',
             backdropFilter: 'blur(30px) saturate(1.4)',

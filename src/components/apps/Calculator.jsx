@@ -98,7 +98,7 @@ export default function Calculator() {
           {updateDisplay(current)}
         </div>
       </div>
-      <div className="calc-grid flex-1 grid grid-cols-4 gap-[5px]">
+      <div className="calc-grid flex-1 grid grid-cols-4 gap-[5px]" style={{ gridTemplateRows: 'repeat(5, 1fr)' }}>
         {CALC_LAYOUT.flat().map((label, i) => (
           <button
             key={i}

@@ -97,7 +97,7 @@ export default function Notes() {
             </div>
           ))}
         </div>
-        <div className="notes-editor-wrap flex-1 flex flex-col p-2.5">
+        <div className="notes-editor-wrap flex-1 flex flex-col p-2.5 min-w-0">
           {activeNote ? (
             <>
               <input

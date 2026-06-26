@@ -58,7 +58,7 @@ export default function Terminal() {
 
   return (
     <div className="terminal h-full flex flex-col bg-black">
-      <div ref={outputRef} className="terminal-output flex-1 overflow-y-auto p-2.5 font-mono text-[12px] leading-[1.5] text-[#c0c0c0]">
+      <div ref={outputRef} className="term-output flex-1 overflow-y-auto p-2.5 font-mono text-[12px] leading-[1.5] text-[#c0c0c0]">
         {lines.map((line, i) => (
           <div key={i} className={`term-line whitespace-pre-wrap break-all ${line.className}`}>
             {line.text}
